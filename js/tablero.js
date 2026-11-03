@@ -22,6 +22,8 @@ export function renderizarTablero(tablero) {
     // Borra el estado anterior del tablero.
     contenedor.innerHTML = "";
 
+    let casillaSeleccionada = null;
+
     // Para cada casilla del tablero:
     for (let fila = 0; fila < 8; fila++) {
         for (let col = 0; col < 8; col++) {
@@ -32,6 +34,23 @@ export function renderizarTablero(tablero) {
             casilla.classList.add(
                 (fila + col) % 2 == 0 ? "blancas" : "negras"
             );
+
+            casilla.dataset.fila = fila;
+            casilla.dataset.columna = col;
+
+            // Detectar casilla clicada.
+            casilla.addEventListener("click", () => {
+                // 'Des-seleccionar' casilla seleccionada previa.
+                if (casillaSeleccionada) {
+                    casillaSeleccionada.classList.remove("seleccionada");
+                }
+
+                // Seleccionar nueva casilla
+                casillaSeleccionada = casilla;
+                casillaSeleccionada.classList.add("seleccionada");
+
+                console.log("Casilla: ", fila, col)
+            })
 
             // Consulta y guarda el estado del juego.
             const pieza = tablero[fila][col];

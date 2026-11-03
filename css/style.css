@@ -26,10 +26,17 @@ body {
     user-select: none;
 }
 
+/* Color para las casillas claras. */
 .blancas {
     background-color: #f0d9b5;
 }
 
+/* Color para las casillas oscuras. */
 .negras {
     background-color: #b58863;
+}
+
+/* Color para la casilla seleccionada. Por encima de cualquier color. */
+.seleccionada {
+    background-color: #829769 !important;
 }
