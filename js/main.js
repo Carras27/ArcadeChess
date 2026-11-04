@@ -6,19 +6,51 @@ import { moverPieza } from "./juego.js";
 const tablero = crearTableroInicial();
 
 let casillaSeleccionada = null;
+let turnoActual = "blancas";
+
+// Funcion que devuelve True si una pieza es blanca.
+function esBlanca(pieza) {
+    return pieza === pieza.toUpperCase();
+}
 
 function manejarSeleccion(fila, col) {
-    // Si no hay pieza seleccionada, se selecciona una casilla.
+    const pieza = tablero[fila][col]
+
+    // Si no hay pieza seleccionada
     if (casillaSeleccionada === null) {
-        if (tablero[fila][col] !== null) {
-            casillaSeleccionada = { fila, col };
+        if (pieza === null) { return }
+        
+        // Obtener el color de la pieza seleccionada.
+        const piezaBlanca = esBlanca(pieza)
+        // Comprobar si pertenece al jugador actual.
+        if ((turnoActual === "blancas" && !piezaBlanca) || (turnoActual === "negras" && piezaBlanca)) {
+            return
         }
+
+        casillaSeleccionada = { fila, col }
         renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
         return;
     }
-    // Si hay pieza seleccionada, la movemos a la nueva casilla.
-    const movida = moverPieza(tablero, casillaSeleccionada.fila, casillaSeleccionada.col, fila, col);
-    casillaSeleccionada = null;
+    // Si ya hay pieza seleccionada
+    else {
+        // Guardamos la casilla de origen.
+        const filaOrigen = casillaSeleccionada.fila;
+        const colOrigen = casillaSeleccionada.col;
+
+        // Si pulsamos la misma casilla, cancelamos la selección.
+        if (filaOrigen === fila && colOrigen === col) {
+            casillaSeleccionada = null;
+        // Si no, la movemos.
+        } else {
+            moverPieza(tablero, filaOrigen, colOrigen, fila, col);
+
+            // Limpiar selección.
+            casillaSeleccionada = null;
+
+            // Cambiar turno.
+            turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
+        }
+    }
     renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
 }
 
