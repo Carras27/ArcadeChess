@@ -18,4 +18,11 @@ export function validarPeon(tablero, fo, co, fd, cd, esBlanca) {
     if (dc === 0 && df === 2 * direccion && fo === filaInicial && tablero[fd][cd] === null) {
         return tablero[fo + direccion][cd] == null
     }
+
+    // Captura (en diagonal)
+    if (Math.abs(dc) === 1 && df === direccion) {
+        return tablero[fd][cd] !== null;
+    }
+
+    return false;
 }
