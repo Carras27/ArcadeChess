@@ -11,18 +11,19 @@ export function validarPeon(tablero, fo, co, fd, cd, esBlanca) {
     const dc = cd - co;
 
 
-    // Avance recto de UNA casilla (sin comer)
+    // Avance recto de UNA casilla (sin comer).
     if (dc === 0 && df === direccion && tablero[fd][cd] === null) return true;
 
-    // Avance doble desde la casilla de salida
+    // Avance doble desde la casilla de salida.
     if (dc === 0 && df === 2 * direccion && fo === filaInicial && tablero[fd][cd] === null) {
         return tablero[fo + direccion][cd] == null
     }
 
-    // Captura (en diagonal)
+    // Captura (en diagonal).
     if (Math.abs(dc) === 1 && df === direccion) {
         return tablero[fd][cd] !== null;
     }
 
+    // En cualquier otro caso, no se validará el movimiento.
     return false;
 }
