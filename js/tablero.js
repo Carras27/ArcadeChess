@@ -1,3 +1,5 @@
+// /tablero.js
+
 import { piezas } from "./piezas.js";
 
 // Genera el estado inicial de cada posición del tablero.

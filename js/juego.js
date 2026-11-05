@@ -1,3 +1,5 @@
+// /juego.js
+
 // Mueve la pieza de una casilla a otra.
 export function moverPieza(tablero, filaOrigen, colOrigen, filaDestino, colDestino) {
     const pieza = tablero[filaOrigen][colOrigen];
@@ -9,3 +11,9 @@ export function moverPieza(tablero, filaOrigen, colOrigen, filaDestino, colDesti
 
     return true;
 }
+
+// Antes de realizar un movimiento, comprueba si es válido o no.
+export function esMovimientoValido(tablero, filaOrigen, colOrigen, filaDestino, colDestino) {
+    return true;
+}
+

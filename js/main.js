@@ -1,6 +1,8 @@
+// /main.js
+
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
-import { moverPieza } from "./juego.js";
+import { esMovimientoValido, moverPieza } from "./juego.js";
 
 
 const tablero = crearTableroInicial();
@@ -42,13 +44,15 @@ function manejarSeleccion(fila, col) {
             casillaSeleccionada = null;
         // Si no, la movemos.
         } else {
-            moverPieza(tablero, filaOrigen, colOrigen, fila, col);
+            if (esMovimientoValido(tablero, filaOrigen, colOrigen, fila, col)) {
+                moverPieza(tablero, filaOrigen, colOrigen, fila, col);
 
-            // Limpiar selección.
-            casillaSeleccionada = null;
+                // Limpiar selección.
+                casillaSeleccionada = null;
 
-            // Cambiar turno.
-            turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
+                // Cambiar turno.
+                turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
+            }
         }
     }
     renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
