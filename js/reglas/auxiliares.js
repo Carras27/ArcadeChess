@@ -1,4 +1,4 @@
-// /auxiliares.js
+// /reglas/auxiliares.js
 
 // Asegurar que ningún movimiento sale del tablero.
 export function dentroDelTablero(fila,col) {
