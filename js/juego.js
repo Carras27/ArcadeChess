@@ -40,7 +40,6 @@ export function esMovimientoValido(tablero, fo, co, fd, cd) {
     const pieza = tablero[fo][co];
     const tipo = pieza.toLowerCase(); // Se guarda el tipo en minúscula para tratar de la misma manera a piezas iguales de distinto color.
     const blanca = esBlanca(pieza); // Se guarda el color de la pieza, necesario para validar los movimientos de los peones.
-
     switch (tipo) {
         case "p": return validarPeon(tablero, fo, co, fd, cd, blanca);
         case "n": return validarCaballo(tablero, fo, co, fd, cd);
@@ -106,6 +105,7 @@ export function hayJaque(tablero, blanca) {
             }
         }
     }
+    return false;
 }
 
 export function hayJaqueMate() {
