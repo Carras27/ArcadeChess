@@ -108,29 +108,35 @@ export function hayJaque(tablero, blanca) {
     return false;
 }
 
-export function hayJaqueMate(tablero, blanca) {
-    // Si no hay jaque, no hay mate.
-    if (!hayJaque(tablero, blanca)) return false;
 
-    // Comprobar todas las piezas para el jugador en jaque.
+// Comprueba si existe algún movimiento legal para uno de los jugadores. En caso de que no, habrá perdido.
+export function tieneAlgunMovimientoLegal(tablero, blanca) {
+    // Comprueba todas las piezas.
     for (let fo = 0; fo < 8; fo++) {
         for (let co = 0; co < 8; co++) {
-            const pieza = tablero[f][c];
-            if (!pieza) continue; // Si no hay pieza, sigue.
-            if (esBlanca(pieza) !== blanca) continue // Si la pieza es del rival, sigue.
+            const pieza = tablero[fo][co];
+            if (!pieza) continue; // Si no hay pieza en la casilla, sigue.
+            if (esBlanca(pieza) !== blanca) continue; // Si la pieza es del rival, sigue.
 
-            // Comprobar todos los movimientos posibles para cada pieza.
+            // Comprueba todos los movimientos posibles para cada pieza.
             for (let fd = 0; fd < 8; fd++) {
                 for (let cd = 0; cd < 8; cd++) {
-                    // esMovimientoLegal simula el movimiento y comprueba si hay jaque.
                     if (esMovimientoLegal(tablero, fo, co, fd, cd, blanca)) {
-                        return false; // Si hay algún movimiento legal, no hay jaque mate.
+                        return true;
                     }
                 }
             }
         }
     }
+    return false;
+}
 
-    // Si no encontró ningún movimiento, jaque mate, fin de la partida.
-    return true;
+// Comprobar si hay jaque mate.
+export function hayJaqueMate(tablero, blanca) {
+    return hayJaque(tablero, blanca) && !tieneAlgunMovimientoLegal(tablero, blanca);
+}
+
+// Comprobar si hay rey ahogado.
+export function hayAhogado(tablero, blanca) {
+    return !hayJaque(tablero, blanca) && !tieneAlgunMovimientoLegal(tablero, blanca);
 }

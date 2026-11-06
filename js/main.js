@@ -2,16 +2,20 @@
 
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
-import { esMovimientoLegal, moverPieza, esBlanca, hayJaque} from "./juego.js";
+import { esMovimientoLegal, moverPieza, esBlanca, hayJaque, hayJaqueMate, hayAhogado} from "./juego.js";
 
 
 const tablero = crearTableroInicial();
 
 let casillaSeleccionada = null;
 let turnoActual = "blancas";
+// Variable para manejar el estado de la partida
+    let partidaTerminada = false;
 
 function manejarSeleccion(fila, col) {
     const pieza = tablero[fila][col]
+
+    if (partidaTerminada) return; // Si la partida se terminó, los clicks no funcionan.
 
     // Si no hay pieza seleccionada
     if (casillaSeleccionada === null) {
@@ -62,9 +66,19 @@ function manejarSeleccion(fila, col) {
             // Cambiar turno.
             turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
 
-            // Comprobar si el movimiento genera un jaque.
-            if (hayJaque(tablero, turnoActual === "blancas")) {
-                console.log("¡Jaque a las " + turnoActual + "!")  
+            // Comprobar si el movimiento genera un jaque mate (fin de la partida) o un jaque.
+            if (hayJaqueMate(tablero, turnoActual === "blancas")) {
+                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+                mensaje.textContent = "¡Jaque mate! Ganan las " + (turnoActual ? "blancas" : "negras");
+                return;
+            }
+            else if (hayAhogado(tablero, turnoActual === "blancas")) {
+                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+                mensaje.textContent = "Tablas por ahogado";
+                return;
+            }
+            else if (hayJaque(tablero, turnoActual === "blancas")) {
+                alert("¡Jaque!");
             }
         }
 

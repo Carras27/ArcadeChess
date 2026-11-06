@@ -32,7 +32,7 @@ export function caminoLibre(tablero, fo, co, fd, cd) {
     // Usamos dos variables para ir revisando casilla a casilla.
     let f = fo + dirf;
     let c = co + dirc;
-    if (f !== fd || c !== cd) {
+    while (f !== fd || c !== cd) {
         if (tablero[f][c] !== null) return false; //Si hay alguna pieza por el camino, devuelve 'false'.
         // Avanzamos a la siguiente casilla.
         f += dirf;
