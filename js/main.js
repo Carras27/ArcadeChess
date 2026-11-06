@@ -2,18 +2,13 @@
 
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
-import { esMovimientoValido, moverPieza } from "./juego.js";
+import { esMovimientoValido, moverPieza, esBlanca } from "./juego.js";
 
 
 const tablero = crearTableroInicial();
 
 let casillaSeleccionada = null;
 let turnoActual = "blancas";
-
-// Funcion que devuelve True si una pieza es blanca.
-function esBlanca(pieza) {
-    return pieza === pieza.toUpperCase();
-}
 
 function manejarSeleccion(fila, col) {
     const pieza = tablero[fila][col]
@@ -25,9 +20,8 @@ function manejarSeleccion(fila, col) {
         // Obtener el color de la pieza seleccionada.
         const piezaBlanca = esBlanca(pieza)
         // Comprobar si pertenece al jugador actual.
-        if ((turnoActual === "blancas" && !piezaBlanca) || (turnoActual === "negras" && piezaBlanca)) {
-            return
-        }
+        const esTurnoDeBlancas = turnoActual === "blancas";
+        if (piezaBlanca !== esTurnoDeBlancas) return;
 
         casillaSeleccionada = { fila, col }
         renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);

@@ -7,6 +7,13 @@ import { validarPeon } from ".reglas/peon.js";
 import { validarDama } from ".reglas/dama.js";
 import { dentroDelTablero, esPiezaDelMismoColor } from "./reglas/auxiliares";
 
+
+// Funcion que devuelve 'true'' si una pieza es blanca.
+function esBlanca(pieza) {
+    return pieza === pieza.toUpperCase();
+}
+
+
 // Mueve la pieza de una casilla a otra.
 export function moverPieza(tablero, fo, co, fd, cd) {
     const pieza = tablero[fo][co];
@@ -32,7 +39,7 @@ export function esMovimientoValido(tablero, fo, co, fd, cd) {
     // Ahora se consultan reglas que afectan distintamente a cada tipo de pieza.
     const pieza = tablero[fo][co];
     const tipo = pieza.toLowerCase(); // Se guarda el tipo en minúscula para tratar de la misma manera a piezas iguales de distinto color.
-    const esBlanca = pieza === pieza.toUpperCase(); // Se guarda el color de la pieza, necesario para validar los movimientos de los peones.
+    const esBlanca = esBlanca(pieza); // Se guarda el color de la pieza, necesario para validar los movimientos de los peones.
 
     switch (tipo) {
         case "p": return validarPeon(tablero, fo, co, fd, cd, esBlanca);
@@ -45,7 +52,7 @@ export function esMovimientoValido(tablero, fo, co, fd, cd) {
     }
 }
 
-// 
+// Función para comprobar si existe estado de jaque.
 export function hayJaque(tablero, esBlanca) {
     // Buscamos la posición del rey en jaque.
     let posRey = null;
@@ -69,7 +76,7 @@ export function hayJaque(tablero, esBlanca) {
         for (let c = 0; c < 8; c++) {
             const pieza = tablero[f][c];
             if (!pieza) continue; // Ante casilla sin piezas, sigue buscando.
-            const piezaEsBlanca = pieza === pieza.toUpperCase();
+            const piezaEsBlanca = esBlanca(pieza)
             if (piezaEsBlanca === esBlanca) continue; // Ante piezas del mismo color, sigue buscando.
 
             // Encontrada una pieza enemiga, comprobar si amenaza al rey.
