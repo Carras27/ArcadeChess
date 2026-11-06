@@ -1,5 +1,5 @@
 // /reglas/alfil.js
-import { caminoLibre } from "./auxiliares";
+import { caminoLibre } from "./auxiliares.js";
 
 // Reglas para los posibles movimientos del alfil.
 export function validarAlfil(tablero, fo, co, fd, cd) {

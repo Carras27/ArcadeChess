@@ -1,15 +1,15 @@
 // /juego.js
-import { validarTorre } from ".reglas/torre.js";
-import { validarRey } from ".reglas/rey.js";
-import { validarAlfil } from ".reglas/alfil.js";
-import { validarCaballo } from ".reglas/caballo.js";
-import { validarPeon } from ".reglas/peon.js";
-import { validarDama } from ".reglas/dama.js";
-import { dentroDelTablero, esPiezaDelMismoColor } from "./reglas/auxiliares";
+import { validarTorre } from "./reglas/torre.js";
+import { validarRey } from "./reglas/rey.js";
+import { validarAlfil } from "./reglas/alfil.js";
+import { validarCaballo } from "./reglas/caballo.js";
+import { validarPeon } from "./reglas/peon.js";
+import { validarDama } from "./reglas/dama.js";
+import { dentroDelTablero, esPiezaDelMismoColor } from "./reglas/auxiliares.js";
 
 
 // Funcion que devuelve 'true'' si una pieza es blanca.
-function esBlanca(pieza) {
+export function esBlanca(pieza) {
     return pieza === pieza.toUpperCase();
 }
 
@@ -39,10 +39,10 @@ export function esMovimientoValido(tablero, fo, co, fd, cd) {
     // Ahora se consultan reglas que afectan distintamente a cada tipo de pieza.
     const pieza = tablero[fo][co];
     const tipo = pieza.toLowerCase(); // Se guarda el tipo en minúscula para tratar de la misma manera a piezas iguales de distinto color.
-    const esBlanca = esBlanca(pieza); // Se guarda el color de la pieza, necesario para validar los movimientos de los peones.
+    const blanca = esBlanca(pieza); // Se guarda el color de la pieza, necesario para validar los movimientos de los peones.
 
     switch (tipo) {
-        case "p": return validarPeon(tablero, fo, co, fd, cd, esBlanca);
+        case "p": return validarPeon(tablero, fo, co, fd, cd, blanca);
         case "n": return validarCaballo(tablero, fo, co, fd, cd);
         case "b": return validarAlfil(tablero, fo, co, fd, cd);
         case "r": return validarTorre(tablero, fo, co, fd, cd);
@@ -74,12 +74,12 @@ export function esMovimientoLegal(tablero, fo, co, fd, cd, esBlancaTurno) {
 }
 
 // Función para comprobar si existe estado de jaque.
-export function hayJaque(tablero, esBlanca) {
+export function hayJaque(tablero, blanca) {
     // Buscamos la posición del rey en jaque.
     let posRey = null;
     bucle: for (let f = 0; f < 8; f++) {
         for (let c = 0; c < 8; c++) {
-            if ((tablero[f][c] === "k" && !esBlanca) || (tablero[f][c] === "K" && esBlanca)){
+            if ((tablero[f][c] === "k" && !blanca) || (tablero[f][c] === "K" && blanca)){
                 posRey = { fila: f, col: c };
                 break bucle; // Tras encontrar al rey en jaque, sale de los bucles.
             }
@@ -98,7 +98,7 @@ export function hayJaque(tablero, esBlanca) {
             const pieza = tablero[f][c];
             if (!pieza) continue; // Ante casilla sin piezas, sigue buscando.
             const piezaEsBlanca = esBlanca(pieza)
-            if (piezaEsBlanca === esBlanca) continue; // Ante piezas del mismo color, sigue buscando.
+            if (piezaEsBlanca === blanca) continue; // Ante piezas del mismo color, sigue buscando.
 
             // Encontrada una pieza enemiga, comprobar si amenaza al rey.
             if (esMovimientoValido(tablero, f, c, posRey.fila, posRey.col)) {

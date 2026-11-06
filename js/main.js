@@ -2,7 +2,7 @@
 
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
-import { esMovimientoValido, esMovimientoLegal, moverPieza, esBlanca, hayJaque} from "./juego.js";
+import { esMovimientoLegal, moverPieza, esBlanca, hayJaque} from "./juego.js";
 
 
 const tablero = crearTableroInicial();
@@ -29,27 +29,46 @@ function manejarSeleccion(fila, col) {
     }
     // Si ya hay pieza seleccionada
     else {
-        // Guardamos la casilla de origen.
+        // Guardamos la casilla de origen y el color de la pieza.
         const filaOrigen = casillaSeleccionada.fila;
         const colOrigen = casillaSeleccionada.col;
+        const colorOrigen = esBlanca(tablero[filaOrigen][colOrigen])
 
         // Si pulsamos la misma casilla, cancelamos la selección.
         if (filaOrigen === fila && colOrigen === col) {
             casillaSeleccionada = null;
-        // Si no, la movemos.
-        } else {
-            if (esMovimientoValido(tablero, filaOrigen, colOrigen, fila, col)) {
-                moverPieza(tablero, filaOrigen, colOrigen, fila, col);
+            renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+            return;
+        }
+        
+        // Si hay una pieza en la casilla destino
+        if (tablero[fila][col] !== null) {
+            // Si la pieza es del mismo color, se cambia la selección.
+            const colorDestino = esBlanca(tablero[fila][col])
+            if (colorOrigen === colorDestino) {
+                casillaSeleccionada = { fila, col }
+                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada)
+                return;
 
-                // Limpiar selección.
-                casillaSeleccionada = null;
-
-                // Cambiar turno.
-                turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
             }
         }
-    }
-    renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
-}
+        // Si no, la movemos
+        if (esMovimientoLegal(tablero, filaOrigen, colOrigen, fila, col, turnoActual === "blancas")) {
+            moverPieza(tablero, filaOrigen, colOrigen, fila, col);
 
+            // Limpiar selección.
+            casillaSeleccionada = null;
+
+            // Cambiar turno.
+            turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
+
+            // Comprobar si el movimiento genera un jaque.
+            if (hayJaque(tablero, turnoActual === "blancas")) {
+                console.log("¡Jaque a las " + turnoActual + "!")  
+            }
+        }
+
+    renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+    }
+}
 renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);

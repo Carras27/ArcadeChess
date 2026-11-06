@@ -1,5 +1,5 @@
 // /reglas/torre.js
-import { caminoLibre } from "./auxiliares";
+import { caminoLibre } from "./auxiliares.js";
 
 // Reglas para los posibles movimientos de la torre.
 export function validarTorre(tablero, fo, co, fd, cd) {
