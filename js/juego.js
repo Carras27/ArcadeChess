@@ -108,6 +108,29 @@ export function hayJaque(tablero, blanca) {
     return false;
 }
 
-export function hayJaqueMate() {
-    return false;
+export function hayJaqueMate(tablero, blanca) {
+    // Si no hay jaque, no hay mate.
+    if (!hayJaque(tablero, blanca)) return false;
+
+    // Comprobar todas las piezas para el jugador en jaque.
+    for (let fo = 0; fo < 8; fo++) {
+        for (let co = 0; co < 8; co++) {
+            const pieza = tablero[f][c];
+            if (!pieza) continue; // Si no hay pieza, sigue.
+            if (esBlanca(pieza) !== blanca) continue // Si la pieza es del rival, sigue.
+
+            // Comprobar todos los movimientos posibles para cada pieza.
+            for (let fd = 0; fd < 8; fd++) {
+                for (let cd = 0; cd < 8; cd++) {
+                    // esMovimientoLegal simula el movimiento y comprueba si hay jaque.
+                    if (esMovimientoLegal(tablero, fo, co, fd, cd, blanca)) {
+                        return false; // Si hay algún movimiento legal, no hay jaque mate.
+                    }
+                }
+            }
+        }
+    }
+
+    // Si no encontró ningún movimiento, jaque mate, fin de la partida.
+    return true;
 }
