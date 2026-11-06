@@ -2,7 +2,7 @@
 
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
-import { esMovimientoValido, moverPieza, esBlanca } from "./juego.js";
+import { esMovimientoValido, esMovimientoLegal, moverPieza, esBlanca, hayJaque} from "./juego.js";
 
 
 const tablero = crearTableroInicial();

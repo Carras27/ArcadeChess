@@ -28,7 +28,7 @@ export function moverPieza(tablero, fo, co, fd, cd) {
     return {pieza, capturada};
 }
 
-// Función que valida (o inválida) cualquier posible movimiento antes de realizarlo.
+// Función que comprueba la validez de cualquier posible movimiento antes de realizarlo.
 export function esMovimientoValido(tablero, fo, co, fd, cd) {
     // Primero se consultan reglas que afectan a todas las piezas por igual.
     if (!dentroDelTablero(fd, cd)) return false; // No moverse fuera del tablero.                
@@ -50,6 +50,27 @@ export function esMovimientoValido(tablero, fo, co, fd, cd) {
         case "k": return validarRey(tablero, fo, co, fd, cd);
         default:  return false;
     }
+}
+
+// Función que comprueba si tras un movimiento ocurriría un jaque al propio rey, invalidándolo.
+export function esMovimientoLegal(tablero, fo, co, fd, cd, esBlancaTurno) {
+    if (!esMovimientoValido(tablero, fo, co, fd, cd)) return false;
+
+    // Simula el movimiento.
+    const pieza     = tablero[fo][co];
+    const capturada = tablero[fd][cd];
+    tablero[fd][cd] = pieza;
+    tablero[fo][co] = null;
+
+    // Comprueba el jaque en el nuevo estado del tablero.
+    const quedaEnJaque = hayJaque(tablero, esBlancaTurno);
+
+    // Deshace el movimiento.
+    tablero[fo][co] = pieza;
+    tablero[fd][cd] = capturada;
+
+    // Devuelve la legalidad del movimiento.
+    return !quedaEnJaque;
 }
 
 // Función para comprobar si existe estado de jaque.
