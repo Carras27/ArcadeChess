@@ -5,8 +5,8 @@ import { caminoLibre } from "./auxiliares";
 export function validarAlfil(tablero, fo, co, fd, cd) {
     
     // Calculamos el número de casillas que se moverá en cada eje.
-    df = Math.abs(fd - fo);
-    dc = Math.abs(cd - co);
+    const df = Math.abs(fd - fo);
+    const dc = Math.abs(cd - co);
 
     // Si no se mueve las mismas casillas en cada eje (diagonalmente), devuelve 'false'.
     if (df !== dc) return false;
