@@ -41,7 +41,7 @@ export function validarEnroque (tablero, fo, co, fd, cd, esBlanca, estadoEnroque
     const reyOriginal = tablero[fo][co];
 
     // Simularemos cada nueva posición para comprobar jaques por el camino.
-    for (let c = co + direccion; c += paso;) {
+    for (let c = co + direccion; c += direccion;) {
         // Simular nueva posición del rey.
         tablero[fo][co] = null;
         tablero[fo][c] = rey;
@@ -73,8 +73,9 @@ export function ejecutarEnroque (tablero, fo, co, fd, cd) {
     const colTorreOrigen = esCorto ? 7 : 0;
     const colTorreDestino = esCorto ? cd - 1 : cd + 1;
     const torre = tablero[fo][colTorreOrigen];
-    tablero[fo][colTorreOrigen] = null;
+    console.log(esCorto, colTorreDestino)
     tablero[fo][colTorreDestino] = torre;
+    tablero[fo][colTorreOrigen] = null;   
 }
 
 

@@ -3,7 +3,7 @@
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
 import { esMovimientoLegal, moverPieza, esBlanca, hayJaque, hayJaqueMate, hayAhogado} from "./juego.js";
-
+import { ejecutarEnroque } from "./reglas/enroque.js";
 
 const tablero = crearTableroInicial();
 
@@ -43,12 +43,12 @@ function manejarSeleccion(fila, col) {
     // Si ya hay pieza seleccionada
     else {
         // Guardamos la casilla de origen y el color de la pieza.
-        const filaOrigen = casillaSeleccionada.fila;
-        const colOrigen = casillaSeleccionada.col;
-        const colorOrigen = esBlanca(tablero[filaOrigen][colOrigen])
+        const fo = casillaSeleccionada.fila;
+        const co = casillaSeleccionada.col;
+        const colorOrigen = esBlanca(tablero[fo][co])
 
         // Si pulsamos la misma casilla, cancelamos la selección.
-        if (filaOrigen === fila && colOrigen === col) {
+        if (fo === fila && co === col) {
             casillaSeleccionada = null;
             renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
             return;
@@ -66,8 +66,16 @@ function manejarSeleccion(fila, col) {
             }
         }
         // Si no, la movemos
-        if (esMovimientoLegal(tablero, filaOrigen, colOrigen, fila, col, turnoActual === "blancas")) {
-            moverPieza(tablero, filaOrigen, colOrigen, fila, col);
+        if (esMovimientoLegal(tablero, fo, co, fila, col, turnoActual === "blancas", estadoEnroque)) {
+            // Primero, miramos si es un movimiento normal o un enroque.
+            const piezaMovida = tablero[fo][co];
+            const esEnroque = piezaMovida.toLowerCase() === "k" && Math.abs(col - co) === 2;
+
+            if (esEnroque) {
+                ejecutarEnroque(tablero, fo, co, fila, col);
+            } else {
+                moverPieza(tablero, fo, co, fila, col);
+            }
 
             // Limpiar selección.
             casillaSeleccionada = null;

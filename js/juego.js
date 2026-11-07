@@ -6,7 +6,7 @@ import { validarCaballo } from "./reglas/caballo.js";
 import { validarPeon } from "./reglas/peon.js";
 import { validarDama } from "./reglas/dama.js";
 import { dentroDelTablero, esPiezaDelMismoColor } from "./reglas/auxiliares.js";
-import { ejecutarEnroque, validarEnroque } from "./reglas/enroque.js";
+import { ejecutarEnroque, validarEnroque, deshacerEnroque } from "./reglas/enroque.js";
 
 
 // Funcion que devuelve 'true'' si una pieza es blanca.
@@ -60,7 +60,7 @@ export function esMovimientoValido(tablero, fo, co, fd, cd, estadoEnroque = null
 
 // Función que comprueba si tras un movimiento ocurriría un jaque al propio rey, invalidándolo.
 export function esMovimientoLegal(tablero, fo, co, fd, cd, esBlancaTurno, estadoEnroque = null) {
-    if (!esMovimientoValido(tablero, fo, co, fd, cd)) return false;
+    if (!esMovimientoValido(tablero, fo, co, fd, cd, estadoEnroque)) return false;
 
     // Comprueba si el movimiento es un enroque.
     let pieza     = tablero[fo][co];
