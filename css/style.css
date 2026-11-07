@@ -6,6 +6,20 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+.barra {
+    background:#b58863;
+    width: max-content;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+ul.elementos li {
+    display: inline;
+    padding-right: 0.5em;
+}
 /* Tablero */
 #tablero {
     /* El tablero debe ser un cuadrado perfecto. */
