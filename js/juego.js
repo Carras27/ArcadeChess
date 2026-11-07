@@ -16,7 +16,7 @@ export function esBlanca(pieza) {
 
 
 // Mueve la pieza de una casilla a otra.
-export function moverPieza(tablero, fo, co, fd, cd) {
+export function moverPieza(tablero, fo, co, fd, cd, blancas, estadoEnroque) {
     const pieza = tablero[fo][co];
 
     if (!pieza) return false;
@@ -25,6 +25,12 @@ export function moverPieza(tablero, fo, co, fd, cd) {
     tablero[fd][cd] = pieza;
     tablero[fo][co] = null;
 
+    const estado = blancas ? estadoEnroque.blancas : estadoEnroque.negras;
+
+    if (pieza.toLowerCase() === "k") estado.reyMovido = true;
+    else if(pieza.toLowerCase() === "r" && co == 7) estado.torreDerechaMovida = true;
+    else if (pieza.toLowerCase() === "r" && co == 0 ) estado.torreIzquierdaMovida = true;
+    
     // Devuelve la pieza que hace el movimiento y la pieza capturada, si la hay.
     return {pieza, capturada};
 }

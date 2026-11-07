@@ -74,7 +74,7 @@ function manejarSeleccion(fila, col) {
             if (esEnroque) {
                 ejecutarEnroque(tablero, fo, co, fila, col);
             } else {
-                moverPieza(tablero, fo, co, fila, col);
+                moverPieza(tablero, fo, co, fila, col, turnoActual === "blancas", estadoEnroque);
             }
 
             // Limpiar selección.
