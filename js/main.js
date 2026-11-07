@@ -1,4 +1,4 @@
-// /main.js
+// main.js
 
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
@@ -7,10 +7,19 @@ import { esMovimientoLegal, moverPieza, esBlanca, hayJaque, hayJaqueMate, hayAho
 
 const tablero = crearTableroInicial();
 
+// Variable para manejar la selección de casilla.
 let casillaSeleccionada = null;
+// Variable para manejar a quién le toca mover.
 let turnoActual = "blancas";
 // Variable para manejar el estado de la partida
-    let partidaTerminada = false;
+let partidaTerminada = false;
+// Variable para manejar la validez del enroque.
+// Detecta si el rey o las torres ya realizaron algún movimiento durante la partida.
+let estadoEnroque = {
+    blancas: { reyMovido: false, torreIzquierdaMovida: false, torreDerechaMovida: false },
+    negras:  { reyMovido: false, torreIzquierdaMovida: false, torreDerechaMovida: false }
+}
+
 
 function manejarSeleccion(fila, col) {
     const pieza = tablero[fila][col]

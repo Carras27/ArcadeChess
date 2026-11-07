@@ -1,4 +1,4 @@
-// /juego.js
+// juego.js
 import { validarTorre } from "./reglas/torre.js";
 import { validarRey } from "./reglas/rey.js";
 import { validarAlfil } from "./reglas/alfil.js";
@@ -6,6 +6,7 @@ import { validarCaballo } from "./reglas/caballo.js";
 import { validarPeon } from "./reglas/peon.js";
 import { validarDama } from "./reglas/dama.js";
 import { dentroDelTablero, esPiezaDelMismoColor } from "./reglas/auxiliares.js";
+import { ejecutarEnroque, validarEnroque } from "./reglas/enroque.js";
 
 
 // Funcion que devuelve 'true'' si una pieza es blanca.
@@ -29,7 +30,7 @@ export function moverPieza(tablero, fo, co, fd, cd) {
 }
 
 // Función que comprueba la validez de cualquier posible movimiento antes de realizarlo.
-export function esMovimientoValido(tablero, fo, co, fd, cd) {
+export function esMovimientoValido(tablero, fo, co, fd, cd, estadoEnroque = null) {
     // Primero se consultan reglas que afectan a todas las piezas por igual.
     if (!dentroDelTablero(fd, cd)) return false; // No moverse fuera del tablero.                
     if (fo === fd && co === cd) return false; // No moverse al mismo sitio.
@@ -46,28 +47,47 @@ export function esMovimientoValido(tablero, fo, co, fd, cd) {
         case "b": return validarAlfil(tablero, fo, co, fd, cd);
         case "r": return validarTorre(tablero, fo, co, fd, cd);
         case "q": return validarDama(tablero, fo, co, fd, cd);
-        case "k": return validarRey(tablero, fo, co, fd, cd);
+        case "k":
+            // Si el rey intenta mover 2 casillas, se comprueba el enroque.
+            if (Math.abs(cd - co) === 2 && estadoEnroque) {
+                return validarEnroque(tablero, fo, co, fd, cd, blanca, estadoEnroque)
+            }
+            // Si no, hace una validación normal.
+            return validarRey(tablero, fo, co, fd, cd);
         default:  return false;
     }
 }
 
 // Función que comprueba si tras un movimiento ocurriría un jaque al propio rey, invalidándolo.
-export function esMovimientoLegal(tablero, fo, co, fd, cd, esBlancaTurno) {
+export function esMovimientoLegal(tablero, fo, co, fd, cd, esBlancaTurno, estadoEnroque = null) {
     if (!esMovimientoValido(tablero, fo, co, fd, cd)) return false;
 
+    // Comprueba si el movimiento es un enroque.
+    let pieza     = tablero[fo][co];
+    const esEnroque = pieza?.toLowerCase() === "k" && Math.abs(cd - co) === 2;
+
+    let capturada; // Para el caso de no enroque.
+
     // Simula el movimiento.
-    const pieza     = tablero[fo][co];
-    const capturada = tablero[fd][cd];
-    tablero[fd][cd] = pieza;
-    tablero[fo][co] = null;
+    if (esEnroque) {
+        ejecutarEnroque(tablero, fo, co, fd, cd);
+    } else {
+        pieza = tablero[fo][co];
+        capturada = tablero[fd][cd];
+        tablero[fd][cd] = pieza;
+        tablero[fo][co] = null;
+    }
 
     // Comprueba el jaque en el nuevo estado del tablero.
     const quedaEnJaque = hayJaque(tablero, esBlancaTurno);
 
     // Deshace el movimiento.
-    tablero[fo][co] = pieza;
-    tablero[fd][cd] = capturada;
-
+    if (esEnroque) {
+        deshacerEnroque(tablero, fo, co, fd, cd);
+    } else {
+        tablero[fo][co] = pieza;
+        tablero[fd][cd] = capturada;
+    }
     // Devuelve la legalidad del movimiento.
     return !quedaEnJaque;
 }
