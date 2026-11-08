@@ -95,7 +95,10 @@ function manejarSeleccion(fila, col) {
                 return;
             }
             else if (hayJaque(tablero, turnoActual === "blancas")) {
-                alert("¡Jaque!");
+                mensaje.textContent = "¡Jaque a " + (turnoActual ? "negras" : "blancas") + "!";
+            }
+            else {
+                mensaje.textContent = "";
             }
         }
 

@@ -43,15 +43,24 @@ ul.elementos li {
 
 /* Color para las casillas claras. */
 .blancas {
-    background-color: #f0d9b5;
+    /* background-color: #f0d9b5; */
+    background-image: url("../assets/casilla_blanca(verde).png");
+    background-size: 100% 100%;
+    image-rendering: pixelated;
 }
 
 /* Color para las casillas oscuras. */
 .negras {
-    background-color: #b58863;
+    /* background-color: #b58863; */
+    background-image: url("../assets/casilla_negra(verde).png");
+    background-size: 100% 100%;
+    image-rendering: pixelated;
 }
 
 /* Color para la casilla seleccionada. Por encima de cualquier color. */
 .seleccionada {
-    background-color: #829769 !important;
+    /* background-color: #829769 !important; */
+    background-image: url("../assets/casilla_seleccionada(verde).png");
+    background-size: 100% 100%;
+    image-rendering: pixelated;
 }
