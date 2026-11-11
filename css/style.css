@@ -2,12 +2,11 @@
 :root {
   --header-h: 72px;
   --panel-w: 280px;
-  --fondo:   #12141c;
-  --panel:   #1b1e2a;
+  --panel:   #141829;
   --borde:   #2c3145;
   --texto:   #e8eaf2;
   --piezas:  #141412;
-  --hoover:  #f0b429;
+  --hoover:  #ff9100;
   --seleccionado: #829769;
   --peligro: #d9534f;
 }
@@ -19,7 +18,7 @@ html, body { height: 100%; margin: 0; }
 
 body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--fondo);
+    background-image: url("../assets/arlequinado(verde2).png");
     color: var(--texto);
     font-family: Arial, sans-serif;
     display: flex;
@@ -37,55 +36,55 @@ body {
     gap: 24px;
     padding: 0 20px;
     background: var(--panel);
-    width: max-content;
+    width: 100%;
     border-bottom: 1px solid var(--borde);
 }
 
 /* Estilo del logo y título. */
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo img { border-radius: 8px; object-fit: cover; }
-.marca { font-weight: 700; font-size: 1.1rem; letter-spacing: .5px; }
+.marca { font-weight: 700; font-size: 1.1rem; letter-spacing: .5px; color: var(--hoover)}
 
 /* Estilo de los elementos de la barra superior. */
 .elementos {
-  display: flex; gap: 8px;
-  list-style: none; margin: 0; padding: 0;
+    display: flex; gap: 8px;
+    list-style: none; margin: 0; padding: 0;
 }
 .elementos a {
-  color: var(--texto);
-  text-decoration: none;
-  padding: 27px 14px;
-  border-radius: 0px;
-  transition: background .3s;
+    color: var(--texto);
+    text-decoration: none;
+    padding: 27px 14px;
+    border-radius: 0px;
+    transition: background .3s;
 }
 .elementos a:hover,
 .elementos a.activo { background: rgba(240,180,41,.15); color: var(--hoover); }
 
 /* Layout principal */
 .layout {
-  flex: 1 1 auto;
-  min-height: 0; /* Permitir que se reduzca. Para que flex no desborde. */
-  display: flex;
+    flex: 1 1 auto;
+    min-height: 0; /* Permitir que se reduzca. Para que flex no desborde. */
+    display: flex;
 }
 
 /* Zona del tablero de juego. */
 .zona-tablero {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0px;
-  padding: 10px;
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+    padding: 10px;
 }
 
 
 #mensaje {
-  font-size: .95rem;
-  color: #a8aec6;
-  min-height: 1.4em;
-}
+    font-size: .95rem;
+    color: #a8aec6;
+    min-height: 1.4em;
+    }
 
 /* Tablero */
 #tablero {
@@ -110,28 +109,28 @@ body {
 
     background: var(--panel);
     border: 1px solid var(--borde);
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px 16px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     box-shadow: 0 10px 40px rgba(0,0,0,.45);
 }
 
 .info-turno {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: .95rem;
-  color: var(--texto);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: .95rem;
+    color: var(--texto);
 }
 
 .info-monedas {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 700;
-  font-size: .95rem;
-  color: var(--hoover);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--hoover);
 }
 .icono-monedas { font-size: 1.1rem; line-height: 1; }
 
@@ -147,38 +146,38 @@ body {
 
 /* Panel derecho. */
 .panel {
-  flex: 0 0 var(--panel-w);
-  background: var(--panel);
-  border-left: 1px solid var(--borde);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
+    flex: 0 0 var(--panel-w);
+    background: var(--panel);
+    border-left: 1px solid var(--borde);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
 }
 
 .panel-titulo {
-  margin: 4px 0 6px;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #8e96b0;
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8e96b0;
 }
 
 /* Estilo de los botones. */
 .btn {
-  display: flex; align-items: center; gap: 8px;
-  width: 100%;
-  padding: 11px 14px;
-  font: inherit;
-  font-size: .92rem;
-  color: var(--texto);
-  background: #242838;
-  border: 1px solid var(--borde);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background .18s, transform .05s, border-color .18s;
-  text-align: left;
+    display: flex; align-items: center; gap: 8px;
+    width: 100%;
+    padding: 11px 14px;
+    font: inherit;
+    font-size: .92rem;
+    color: var(--texto);
+    background: #242838;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .18s, transform .05s, border-color .18s;
+    text-align: left;
 }
 
 .btn:hover  { background: #2d3246; border-color: #3a4160; }
@@ -198,31 +197,31 @@ body {
 
 .campo { display: flex; flex-direction: column; gap: 6px; font-size: .85rem; color: #8e96b0; }
 .campo select {
-  padding: 9px 10px;
-  font: inherit;
-  color: var(--texto);
-  background: #242838;
-  border: 1px solid var(--borde);
-  border-radius: 10px;
+    padding: 9px 10px;
+    font: inherit;
+    color: var(--texto);
+    background: #242838;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
 }
 
 
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
-  body { overflow: auto; height: auto; min-height: 100dvh; }
-  .layout { flex-direction: column; }
-  .panel {
-    flex: 0 0 auto;
-    border-left: none;
-    border-top: 1px solid var(--borde);
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .panel-titulo, .separador { display: none; }
-  .btn { width: auto; flex: 1 1 40%; }
-  #tablero { width: min(96vw, 560px); }
+    body { overflow: auto; height: auto; min-height: 100dvh; }
+    .layout { flex-direction: column; }
+    .panel {
+        flex: 0 0 auto;
+        border-left: none;
+        border-top: 1px solid var(--borde);
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .panel-titulo, .separador { display: none; }
+    .btn { width: auto; flex: 1 1 40%; }
+    #tablero { width: min(96vw, 560px); }
 }
 
 /* Color para las casillas claras. */
