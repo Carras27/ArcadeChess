@@ -2,7 +2,8 @@
 
 import { crearTableroInicial, renderizarTablero }
     from "./tablero.js";
-import { esMovimientoLegal, moverPieza, esBlanca, hayJaque, hayJaqueMate, hayAhogado} from "./juego.js";
+import { esMovimientoLegal, moverPieza, esBlanca, hayJaque, hayJaqueMate, hayAhogado,
+         calcularRecompensa, puedeComprar} from "./juego.js";
 import { ejecutarEnroque } from "./reglas/enroque.js";
 
 const tablero = crearTableroInicial();
@@ -23,6 +24,7 @@ let estadoEnroque = {
 let dirus = 5;
 let turno = 0;
 let racha = 0;
+let anterior = false;
 
 
 function manejarSeleccion(fila, col) {
@@ -78,6 +80,17 @@ function manejarSeleccion(fila, col) {
             if (esEnroque) {
                 ejecutarEnroque(tablero, fo, co, fila, col);
             } else {
+                const piezaCapturada = tablero[fila][col];
+                if (piezaCapturada !== null) {
+                    const recompensa = calcularRecompensa(piezaCapturada, turnoActual === "blancas", racha);
+                    dirus += recompensa;
+                    racha++;
+                    anterior = true;
+                } 
+                else {
+                    racha = 0;
+                    anterior= false;
+                }
                 moverPieza(tablero, fo, co, fila, col, turnoActual === "blancas", estadoEnroque);
             }
 
