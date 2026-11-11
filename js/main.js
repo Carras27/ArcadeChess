@@ -20,6 +20,10 @@ let estadoEnroque = {
     negras:  { reyMovido: false, torreIzquierdaMovida: false, torreDerechaMovida: false }
 }
 
+let dirus = 5;
+let turno = 0;
+let racha = 0;
+
 
 function manejarSeleccion(fila, col) {
     const pieza = tablero[fila][col]
@@ -37,7 +41,7 @@ function manejarSeleccion(fila, col) {
         if (piezaBlanca !== esTurnoDeBlancas) return;
 
         casillaSeleccionada = { fila, col }
-        renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+        renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus);
         return;
     }
     // Si ya hay pieza seleccionada
@@ -50,7 +54,7 @@ function manejarSeleccion(fila, col) {
         // Si pulsamos la misma casilla, cancelamos la selección.
         if (fo === fila && co === col) {
             casillaSeleccionada = null;
-            renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+            renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus);
             return;
         }
         
@@ -60,7 +64,7 @@ function manejarSeleccion(fila, col) {
             const colorDestino = esBlanca(tablero[fila][col])
             if (colorOrigen === colorDestino) {
                 casillaSeleccionada = { fila, col }
-                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada)
+                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus)
                 return;
 
             }
@@ -85,12 +89,12 @@ function manejarSeleccion(fila, col) {
 
             // Comprobar si el movimiento genera un jaque mate (fin de la partida) o un jaque.
             if (hayJaqueMate(tablero, turnoActual === "blancas")) {
-                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus);
                 mensaje.textContent = "¡Jaque mate! Ganan las " + (turnoActual ? "blancas" : "negras");
                 return;
             }
             else if (hayAhogado(tablero, turnoActual === "blancas")) {
-                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+                renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus);
                 mensaje.textContent = "Tablas por ahogado";
                 return;
             }
@@ -101,8 +105,8 @@ function manejarSeleccion(fila, col) {
                 mensaje.textContent = "";
             }
         }
-
-    renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+    turno++;
+    renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus);
     }
 }
-renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada);
+renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus);

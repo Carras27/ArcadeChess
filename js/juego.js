@@ -166,3 +166,25 @@ export function hayJaqueMate(tablero, blanca) {
 export function hayAhogado(tablero, blanca) {
     return !hayJaque(tablero, blanca) && !tieneAlgunMovimientoLegal(tablero, blanca);
 }
+
+// Calcula la recompensa tras capturar una pieza.
+export function calcularRecompensa(piezaCapturada, blanca, racha) {
+    if (!blanca) return 0;
+
+    let recompensa = 0;
+    switch (piezaCapturada?.toLowerCase()) {
+        case "p": recompensa = 1; break;
+        case "n": recompensa = 4; break;
+        case "b": recompensa = 3; break;
+        case "r": recompensa = 5; break;
+        case "q": recompensa = 8; break;
+        default: return 0;
+    }
+
+    return recompensa + racha*2; // Incrementa la recompensa por cada pieza capturada consecutivamente.
+}
+
+// Comprueba que el jugador pueda comprar un producto.
+export function puedeComprar(dirus, precio) {
+    return dirus >= precio;
+}

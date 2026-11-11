@@ -2,28 +2,79 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="vista" content="width=device_width", initial-scale="1.0">
+    <meta name="vista" content="width=device-width", initial-scale="1.0">
 
     <title> Arcade Chess</title>
     <link rel="stylesheet" href="css/style.css">   
-
 </head>
-<nav class="barra">
-    <div class="logo">
-        <img src="assets/peon.jpeg" alt="Logo de Arcade Chess" width="70" height="80">
-    </div>
-    <ul class="elementos">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="clasificacion.html">Clasificación</a></li>
-        <li><a href="acerca.html">Acerca de</a></li>
-    </ul>
-</nav>
+
 <body>
-    <h1> Arcade Chess</h1>
+    <header class="barra">
+        <div class="logo">
+            <img src="assets/peon.jpeg" alt="Logo de Arcade Chess" width="56" height="56">
+            <span class="marca">Arcade Chess</span>
+        </div>
+        <ul class="elementos">
+            <li><a href="index.html" class="activo">Inicio</a></li>
+            <li><a href="clasificacion.html">Clasificación</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+        </ul>
+    </header>
 
-    <div id="mensaje"></div> 
+      <main class="layout">
 
-    <div id="tablero"></div>
+    <section class="zona-tablero">
+        <div class="info-tablero">
+            <span id="turno" class="info-turno">
+                <span "texto-turno"> Turno:  </span>
+                <span id="turno-num" > 0</span>
+            </span>
+
+            <span id="monedas" class="info-monedas">
+                <span class="texto-monedas"> 0 </span>
+                <span class="icono-monedas">💰</span>
+            </span>
+        </div>
+
+        <div id="tablero"></div>
+        <div id="mensaje">Turno de las blancas</div>
+    </section>
+
+    <aside class="panel">
+      <h2 class="panel-titulo">Menú</h2>
+
+      <button class="btn btn-nueva" data-accion="nueva">
+        Nueva partida
+      </button>
+
+      <hr class="separador">
+
+      <label class="campo">
+        <span>Dificultad</span>
+        <select id="dificultad">
+          <option value="facil">Fácil</option>
+          <option value="normal" selected>Normal</option>
+          <option value="dificil">Difícil</option>
+        </select>
+      </label>
+
+      <div class="fila-toggles">
+        <button class="btn btn-toggle" data-accion="sonido" title="Sonido">
+          🔊 Sonido
+        </button>
+        <button class="btn btn-toggle" data-accion="tema" title="Tema">
+          Tema
+        </button>
+      </div>
+
+      <hr class="separador">
+
+      <button class="btn btn-peligro" data-accion="rendirse">
+        Rendirse
+      </button>
+    </aside>
+
+    </main>
 
     <script type="module" src="js/main.js"></script>
 </body>

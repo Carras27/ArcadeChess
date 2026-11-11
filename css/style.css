@@ -1,36 +1,140 @@
+/* Variables globales de color y tamaño. */
+:root {
+  --header-h: 72px;
+  --panel-w: 280px;
+  --fondo:   #12141c;
+  --panel:   #1b1e2a;
+  --borde:   #2c3145;
+  --texto:   #e8eaf2;
+  --piezas:  #141412;
+  --hoover:  #f0b429;
+  --seleccionado: #829769;
+  --peligro: #d9534f;
+}
+/* Aplicar box-sizing a todos los elementos. */
+* { box-sizing: border-box; }
+
+/* Asegurar que el html y body ocupen toda la altura de la ventana y no tengan margen. */
+html, body { height: 100%; margin: 0; }
+
 body {
-    background: white;
-    color: #222;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    height: 100dvh; /* Asegura que el body ocupe toda la altura de la ventana también en dispositivos móviles. */
+    overflow: hidden;
 }
 
+/* Barra superior de navegación. */
 .barra {
-    background:#b58863;
-    width: max-content;
-    font-family: 'Courier New', Courier, monospace;
+    flex: 0 0 var(--header-h);
     display: flex;
-    flex-direction: row;
-    align-items: end;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 0 20px;
+    background: var(--panel);
+    width: max-content;
+    border-bottom: 1px solid var(--borde);
 }
 
-ul.elementos li {
-    display: inline;
-    padding-right: 0.5em;
+/* Estilo del logo y título. */
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo img { border-radius: 8px; object-fit: cover; }
+.marca { font-weight: 700; font-size: 1.1rem; letter-spacing: .5px; }
+
+/* Estilo de los elementos de la barra superior. */
+.elementos {
+  display: flex; gap: 8px;
+  list-style: none; margin: 0; padding: 0;
 }
+.elementos a {
+  color: var(--texto);
+  text-decoration: none;
+  padding: 27px 14px;
+  border-radius: 0px;
+  transition: background .3s;
+}
+.elementos a:hover,
+.elementos a.activo { background: rgba(240,180,41,.15); color: var(--hoover); }
+
+/* Layout principal */
+.layout {
+  flex: 1 1 auto;
+  min-height: 0; /* Permitir que se reduzca. Para que flex no desborde. */
+  display: flex;
+}
+
+/* Zona del tablero de juego. */
+.zona-tablero {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  padding: 10px;
+}
+
+
+#mensaje {
+  font-size: .95rem;
+  color: #a8aec6;
+  min-height: 1.4em;
+}
+
 /* Tablero */
 #tablero {
     /* El tablero debe ser un cuadrado perfecto. */
-    width: 400px;
-    height: 400px;
+    aspect-ratio: 1 / 1;
+    width: 550px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.45);
     display: grid;
      /* 8 fracciones iguales del grid */
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
     border: 4px solid #444;
+    color: var(--piezas);
 }
+
+.info-tablero {
+    width: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.45);
+}
+
+.info-turno {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: .95rem;
+  color: var(--texto);
+}
+
+.info-monedas {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--hoover);
+}
+.icono-monedas { font-size: 1.1rem; line-height: 1; }
+
 /* Cada casilla del tablero */
 #tablero div {
     display: flex;
@@ -39,6 +143,86 @@ ul.elementos li {
     font-size: 48px;
     cursor: pointer;
     user-select: none;
+}
+
+/* Panel derecho. */
+.panel {
+  flex: 0 0 var(--panel-w);
+  background: var(--panel);
+  border-left: 1px solid var(--borde);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.panel-titulo {
+  margin: 4px 0 6px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8e96b0;
+}
+
+/* Estilo de los botones. */
+.btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  font: inherit;
+  font-size: .92rem;
+  color: var(--texto);
+  background: #242838;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .18s, transform .05s, border-color .18s;
+  text-align: left;
+}
+
+.btn:hover  { background: #2d3246; border-color: #3a4160; }
+.btn:active { transform: scale(.98); }
+
+.btn-primario { background: var(--acento); color: #1a1a1a; border-color: transparent; font-weight: 600; }
+.btn-primario:hover { background: #ffc94a; }
+
+.btn-nueva { color: #9bf79f; border-color: rgba(130, 217, 79, 0.4); }
+.btn-nueva:hover { background: rgba(88, 206, 98, 0.15); }
+.btn-peligro { color: #ff8f8c; border-color: rgba(217,83,79,.4); }
+.btn-peligro:hover { background: rgba(217,83,79,.15); }
+
+.fila-toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.separador { border: 0; border-top: 1px solid var(--borde); margin: 6px 0; }
+
+.campo { display: flex; flex-direction: column; gap: 6px; font-size: .85rem; color: #8e96b0; }
+.campo select {
+  padding: 9px 10px;
+  font: inherit;
+  color: var(--texto);
+  background: #242838;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  body { overflow: auto; height: auto; min-height: 100dvh; }
+  .layout { flex-direction: column; }
+  .panel {
+    flex: 0 0 auto;
+    border-left: none;
+    border-top: 1px solid var(--borde);
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .panel-titulo, .separador { display: none; }
+  .btn { width: auto; flex: 1 1 40%; }
+  #tablero { width: min(96vw, 560px); }
 }
 
 /* Color para las casillas claras. */

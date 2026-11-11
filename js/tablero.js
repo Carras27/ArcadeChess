@@ -17,7 +17,7 @@ export function crearTableroInicial() {
 }
 
 // Dibujar el tablero de ajedrez.
-export function renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada) {
+export function renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada, turno, dirus) {
     // Busca el elemento 'tablero' en el DOM.
     const contenedor = document.getElementById("tablero"); 
     // Borra el estado anterior del tablero.
@@ -57,4 +57,6 @@ export function renderizarTablero(tablero, manejarSeleccion, casillaSeleccionada
             contenedor.appendChild(casilla);
         }
     }
+    document.getElementById("turno-num").textContent = turno;
+    document.getElementsByClassName("texto-monedas")[0].textContent = dirus;
 }
